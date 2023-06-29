@@ -23,9 +23,10 @@ class Player:
 
 
 players:Player
-# TODO: éditer ce commentaire pour expliquer comment ajouter un joueur
-# TODO: faire un sorte de pouvoir créer des joueurs sans passer par le code
-players = [Player('Philippe', 30,30),Player('Raph',30,30),Player('Mark', 30,30)]
+DEFAULT_SILVER = 30
+DEFAULT_WOOD = 30
+# La liste qui va contenir tous les joueurs
+players = []
 def start_game():
     # imprime le titre du jeu en ASCII art
     # généré avec le site https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20 
@@ -35,6 +36,12 @@ def start_game():
     print('|    |  \|  |   |  \/ /_/  > /_/ (  <_> )  Y Y  \\___ \ ')
     print('|____|__ \__|___|  /\___  /\____ |\____/|__|_|  /____  >')
     print('        \/       \//_____/      \/            \/     \/ ')
+    print("Bonjour ! Combien de joueurs y-a-t'il dans la partie ?")
+    player_number = input()
+    for i in range(int(player_number)):
+        print('nom du joueur ' + str(i) + ' ?')
+        new_player_name = input()
+        players.append(Player(new_player_name,DEFAULT_SILVER,DEFAULT_WOOD))
     for i in players:
         print('Bienvenue ' + i.name)
     print('vous pouvez désormais entrer des commandes dans le ***** terminal *****')
@@ -45,6 +52,7 @@ start_game()
 commands_explainations = ["la commande '/help' permet de voir toutes les commandes possibles. C'est la commande que vous venez d'entrer.",
                           "la commande '/money' permet d'obtenir l'argent contenu dans le compte de chaque joueur. A noter que la valeur des entreprises et actions ne sont pas incluses.  ",
                           "la commande '/transaction' permet d'effectuer une transaction entre deux joueurs ou avec la banque. Les instructions pour effectuer la transaction sont fournises lorsque la commande est appelée",
+                          "la commande '/mine' permet de miner dans les mines de chaque joueur respectif",
                           "la commande '/quit' permet de quitter la partie (A noter: pour relancer le programme il faut d'abord quitter la partie)"
 
 
@@ -115,6 +123,58 @@ while True:
         else:
             print('La partie continue')
         break
+    elif command == '/mine':
+        print("Bienvenue dans la mine. Un nombre entre 1 et 100 va être généré.")
+        print('Souhaitez vous un rappel des gains possibles selon le nombre choisi ?')
+        print("tapez 'Y' pour dire oui")
+        print("tapez 'N' pour dire non")
+        answer = input()
+        if answer == 'Y':
+            print('Voici un rappel: ')
+            
+            print('mine de niveau 1')
+            print(' Entre 0 et 25: rien ')
+            print(' Entre 25 et 75 : 10 silver ')
+            print(' Entre 75 et 100 : 20 silver, soit 1 gold ')
+            print('')
+            
+            print('mine de niveau 2')
+            print(' Entre 0 et 20: rien ')
+            print(' Entre 20 et 70 : 10 silver ')
+            print(' Entre 70 et 95 : 20 silver, soit 1 gold ')
+            print(' Entre 95 et 100 : 40 silver, soit 1 diamond ')
+            print('')
+
+            print('mine de niveau 3')
+            print(' Entre 0 et 15: rien ')
+            print(' Entre 15 et 65 : 10 silver ')
+            print(' Entre 65 et 90 : 20 silver, soit 1 gold ')
+            print(' Entre 90 et 100 : 40 silver, soit 1 diamond ')
+            print('')
+
+            print('mine de niveau 4')
+            print(' Entre 0 et 10: rien ')
+            print(' Entre 10 et 60 : 10 silver ')
+            print(' Entre 60 et 80 : 20 silver, soit 1 gold ')
+            print(' Entre 80 et 100 : 40 silver, soit 1 diamond ')
+            print('')
+
+            print('mine de niveau 5')
+            print(' Entre 0 et 15: rien ')
+            print(' Entre 10 et 55 : 10 silver ')
+            print(' Entre 55 et 75 : 20 silver, soit 1 gold ')
+            print(' Entre 75 et 100 : 40 silver, soit 1 diamond ')
+            print('')
+
+        else:
+            print("D'accord.")
+        print("Procédons au minage")
+        for i in range(len(players)):
+            print(players[i].name + ", Combien de mines avez vous ?")
+            mines_number = int(input())
+            for j in range(mines_number):
+                print('Mine de ' + players[i].name+ ' n° ' + str(j) + ': ' + str(random.randint(0,100)))
+        print("vous pouvez désormais rajouter l'argent gagné dans vos comptes à l'aide de la commande '/transaction'. ")
     elif command == '/help':
         for i in commands_explainations:
             print(i)
